@@ -8,7 +8,7 @@
         <div class="mb-5">    
           <h1>Все посты пользователя {{ author.get_full_name }}</h1>
           <h3>Всего постов: {{ posts_count }}</h3>
-          
+            {% if user.is_authenticated %}
               {% if following %}
                 <a
                   class="btn btn-lg btn-light"
@@ -23,9 +23,14 @@
                 >
                   Подписаться
                 </a>
-              {% endif %}
+             {% endif %}
+            {% else %}
+                <p>
+                  Авторизуйся, чтобы подписаться
+                </p>
+            {% endif %}
 
-          </div>
+        </div>
         {% if post.group %} 
         {% endif %}
         <article>
