@@ -6,12 +6,16 @@ User = get_user_model()
 
 
 class Group(models.Model):
-    title = models.CharField('Выбери группу',
-                             max_length=200,
-                             help_text='Название группы')
+    title = models.CharField(
+        'Выбери группу',
+        max_length=200,
+        help_text='Название группы'
+    )
     slug = models.SlugField(unique=True)
-    description = models.TextField('Опиши группу',
-                                   help_text='Описание группы')
+    description = models.TextField(
+        'Опиши группу',
+        help_text='Описание группы'
+    )
 
     class Meta:
         verbose_name = 'group'
@@ -21,7 +25,9 @@ class Group(models.Model):
 
 
 class Post(models.Model):
-    text = models.TextField('Введи текст', help_text='Текст поста')
+    text = models.TextField(
+        'Введи текст',
+        help_text='Текст поста')
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -31,7 +37,8 @@ class Post(models.Model):
     pub_date = models.DateTimeField(
         'Дата создания',
         auto_now_add=True,
-        help_text='Дата публикации')
+        help_text='Дата публикации'
+    )
     group = models.ForeignKey(
         Group,
         verbose_name='Поле группы',
@@ -61,21 +68,25 @@ class Comment(models.Model):
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
-        related_name='comments')
+        related_name='comments'
+    )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='comments')
+        related_name='comments'
+    )
     text = models.TextField(
         'Введи текст',
-        help_text='Добавь, пожалуйста, свой комментарий')
+        help_text='Добавь, пожалуйста, свой комментарий'
+    )
     created = models.DateTimeField(
         'Дата создания комента',
         auto_now_add=True,
-        help_text='Дата публикации комента')
+        help_text='Дата публикации комента'
+    )
 
     def __str__(self):
-        return self.text
+        return self.text[:15]
 
 
 class Follow(models.Model):
@@ -89,3 +100,12 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name='following',
         help_text='На кого подписан')
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'author'], name='unique_relations')
+        ]
+
+    def __str__(self):
+        return self.text['User follows author']

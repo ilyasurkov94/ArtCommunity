@@ -45,6 +45,7 @@ def profile(request, username):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     posts_count = user_posts.count()
+    request_user_auth = request.user.is_authenticated
 
     if request.user.is_authenticated:
         following = Follow.objects.filter(
@@ -59,6 +60,7 @@ def profile(request, username):
         'page_obj': page_obj,
         'posts_count': posts_count,
         'following': following,
+        'request_user_auth': request_user_auth,
     }
     return render(request, 'posts/profile.html', context)
 

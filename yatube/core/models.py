@@ -8,5 +8,4 @@ class CreatedModel(models.Model):
         auto_now_add=True)
 
     class Meta:
-        # Это абстрактная модель:
         abstract = True

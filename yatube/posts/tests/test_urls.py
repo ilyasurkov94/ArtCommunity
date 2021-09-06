@@ -2,6 +2,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from posts.models import Post, Group
+from django.core.cache import cache
 
 User = get_user_model()
 
@@ -44,6 +45,8 @@ class PostsURLTests(TestCase):
 
         self.another_authorized_client = Client()
         self.another_authorized_client.force_login(self.not_author)
+
+        cache.clear()
 
     def test_urls_uses_corrent_template(self):
         template_url_name = {

@@ -9,7 +9,7 @@
 
   {% include 'posts/includes/switcher.html' %} 
   <h1> Записи мох авторов </h1>
-  {% for post in posts %}
+  {% for post in page_obj %}
   <ul>
     <li>
       Дата публикации: {{ post.pub_date|date:"d E Y" }}, автор <a href="{% url 'posts:profile' username=post.author.username %}">
