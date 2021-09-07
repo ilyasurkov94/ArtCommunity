@@ -102,10 +102,10 @@ class Follow(models.Model):
         help_text='На кого подписан')
 
     class Meta:
-        constraints = [
+        constraints = (
             models.UniqueConstraint(
                 fields=('user', 'author'), name='unique_relations')
-        ]
+        )
 
     def __str__(self):
-        return self.text('User follows author')
+        return f'{self.user.username} follows {self.author.username}'
