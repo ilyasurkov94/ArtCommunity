@@ -1,8 +1,8 @@
-# posts/tests/tests_url.py
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from posts.models import Post, Group
 from django.core.cache import cache
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -56,6 +56,7 @@ class PostsURLTests(TestCase):
             f'/posts/{self.post.id}/': 'posts/post_detail.html',
             '/create/': 'posts/create_post.html',
             f'/posts/{self.post.id}/edit/': 'posts/create_post.html',
+            '/follow/': 'posts/follow.html',
         }
 
         for adress, template in template_url_name.items():
@@ -72,6 +73,7 @@ class PostsURLTests(TestCase):
             '/posts/1/': 200,
             '/posts/1/edit/': 302,
             '/unexisting_page/': 404,
+            '/follow/': 302,  # Ок!!!
         }
         for url, status_code in status_code_for_urls.items():
             with self.subTest(url=url):
@@ -87,6 +89,7 @@ class PostsURLTests(TestCase):
             '/posts/1/': 200,
             '/posts/1/edit/': 200,
             '/unexisting_page/': 404,
+            '/follow/': 200,
         }
         for url, status_code in status_code_for_urls.items():
             with self.subTest(url=url):
@@ -102,6 +105,7 @@ class PostsURLTests(TestCase):
             '/posts/1/': 200,
             '/posts/1/edit/': 302,
             '/unexisting_page/': 404,
+            '/follow/': 200,
         }
         for url, status_code in status_code_for_urls.items():
             with self.subTest(url=url):
@@ -112,6 +116,7 @@ class PostsURLTests(TestCase):
         url_and_redirect_way = {
             '/create/': '/auth/login/?next=/create/',
             '/posts/1/edit/': '/auth/login/?next=/posts/1/edit/',
+            '/follow/': '/auth/login/?next=/follow/'
         }
         for url, redirect_way in url_and_redirect_way.items():
             with self.subTest(url=url):
@@ -126,3 +131,37 @@ class PostsURLTests(TestCase):
             with self.subTest(url=url):
                 response = self.another_authorized_client.get(url, follow=True)
                 self.assertRedirects(response, redirect_way)
+
+    def test_urls_comment(self):
+        comment_data = {
+            'text': 'Первый коммент',
+        }
+
+        comment_response = self.authorized_client.post(
+            reverse('posts:add_comment', kwargs={'post_id': self.post.id}),
+            data=comment_data,
+            follow=True
+        )
+
+        self.assertRedirects(
+            comment_response, reverse('posts:post_detail',
+                                      kwargs={'post_id': self.post.id}))
+
+    def test_urls_follow_unfollow(self):
+        follow_response = self.another_authorized_client.get(
+            reverse('posts:profile_follow',
+                    kwargs={'username': self.not_author.username}))
+
+        self.assertRedirects(
+            follow_response, reverse(
+                'posts:profile',
+                kwargs={'username': self.not_author.username}))
+
+        unfollow_response = self.another_authorized_client.get(
+            reverse('posts:profile_unfollow',
+                    kwargs={'username': self.not_author.username}))
+
+        self.assertRedirects(
+            unfollow_response, reverse(
+                'posts:profile',
+                kwargs={'username': self.not_author.username}))

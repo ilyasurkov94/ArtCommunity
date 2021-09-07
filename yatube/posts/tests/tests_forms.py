@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from posts.models import Post, Group
+from posts.forms import CommentForm
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.core.cache import cache
@@ -27,6 +28,8 @@ class PostCreateFormTest(TestCase):
         )
 
     def setUp(self):
+        self.quest_client = Client()
+
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
 
@@ -79,3 +82,11 @@ class PostCreateFormTest(TestCase):
 
         edit_post = Post.objects.filter(id=1)
         self.assertNotEqual(post_test1, edit_post)
+
+    def test_blocked_for_unauth_comment_form(self):
+        response = self.quest_client.get(
+            reverse('posts:post_detail', kwargs={'post_id': self.post.id}))
+
+        form_form_response = response.context['form']
+
+        self.assertIsNot(form_form_response, CommentForm)

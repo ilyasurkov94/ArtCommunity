@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django import forms
-from posts.forms import CommentForm
 from posts.models import Post, Group
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -483,14 +482,6 @@ class CommentTest(TestCase):
 
         self.assertEqual(first_comment.text, 'Тестовый комментарий')
 
-    def test_unauth_user_cant_comment(self):
-        response = self.quest_client.get(
-            reverse('posts:post_detail', kwargs={'post_id': self.post.id}))
-
-        form_form_response = response.context['form']
-
-        self.assertIsNot(form_form_response, CommentForm)
-
 
 class CacheTest(TestCase):
     @classmethod
@@ -559,13 +550,11 @@ class FollowTest(TestCase):
             reverse('posts:profile_follow',
                     kwargs={'username': self.author.username}))
 
-        # Проверка редиректа
         self.assertRedirects(to_follow_response,
                              reverse('posts:profile',
                                      kwargs={'username':
                                              self.author.username}))
 
-        # Проверяем, что пост автора доступен в избранных
         posts_follow = self.client_who_follow.get(
             reverse('posts:follow_index'))
 
@@ -573,7 +562,6 @@ class FollowTest(TestCase):
 
         self.assertIn(self.author_first_post, objects_in_follow_index)
 
-        # Проверяем, что пост автора нет в избранных для не подписчика
         not_follower_response = self.not_follower_client.get(
             reverse('posts:follow_index'))
 
@@ -581,34 +569,43 @@ class FollowTest(TestCase):
                          not_follower_response.content)
 
     def test_follow_unfollow(self):
-        # Подписываемся
         to_follow_response = self.client_who_follow.get(
             reverse('posts:profile_follow',
                     kwargs={'username': self.author.username}))
 
-        # Проверка редиректа
         self.assertRedirects(to_follow_response,
                              reverse('posts:profile',
                                      kwargs={'username':
                                              self.author.username}))
 
-        # Проверяем, что пост автора доступен в избранных
         posts_follow = self.client_who_follow.get(
             reverse('posts:follow_index'))
         objects_in_follow_index = posts_follow.context['page_obj'].object_list
         self.assertIn(self.author_first_post, objects_in_follow_index)
 
-        # Отписываемся
+    def test_unfollow(self):
+        to_follow_response = self.client_who_follow.get(
+            reverse('posts:profile_follow',
+                    kwargs={'username': self.author.username}))
+
+        self.assertRedirects(to_follow_response,
+                             reverse('posts:profile',
+                                     kwargs={'username':
+                                             self.author.username}))
+
+        posts_follow = self.client_who_follow.get(
+            reverse('posts:follow_index'))
+        objects_in_follow_index = posts_follow.context['page_obj'].object_list
+        self.assertIn(self.author_first_post, objects_in_follow_index)
+
         to_unfollow_response = self.client_who_follow.get(
             reverse('posts:profile_unfollow',
                     kwargs={'username': self.author.username}))
-        # Проверка редиректа
         self.assertRedirects(to_unfollow_response,
                              reverse('posts:profile',
                                      kwargs={'username':
                                              self.author.username}))
 
-        # Проверяем, что пост автора нет в избранных
         unfollowed_client_response = self.client_who_follow.get(
             reverse('posts:follow_index'))
 
