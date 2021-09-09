@@ -104,7 +104,7 @@ class Follow(models.Model):
     class Meta:
         constraints = (
             models.UniqueConstraint(
-                fields=('user', 'author'), name='unique_relations')
+                fields=('user', 'author'), name='unique_relations'),
         )
 
     def __str__(self):

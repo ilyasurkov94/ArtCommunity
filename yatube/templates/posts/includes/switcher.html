@@ -4,8 +4,8 @@
       <ul class="nav nav-tabs">
         <li class="nav-item">
           <a 
-            class="nav-link {% if view_name == 'posts:index' %}active{% endif %}"
-            href="{% url 'posts:index' %}"
+            class="nav-link {% if view_name == 'posts:index' %}active  {% endif %}"
+            href="{% url 'posts:index' %} " style="color: #979A9A  ; text-decoration: none"
           >
             Все авторы
           </a>
@@ -13,7 +13,7 @@
         <li class="nav-item">
           <a 
              class="nav-link {% if view_name == 'posts:follow_index' %}active{% endif %}"
-             href="{% url 'posts:follow_index' %}"
+             href="{% url 'posts:follow_index' %} " style="color: #979A9A  ; text-decoration: none"
           >
             Избранные авторы
           </a>

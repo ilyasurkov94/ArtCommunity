@@ -4,29 +4,38 @@
 {% block content %}
 {% comment %} Колонки с отступом сверху и снизу {% endcomment %}
 <div class="row">
-  <h1>Вот что я умею</h1>
-  {% comment %}
-    Боковой блок со списком технологий 
-    Займет всю ширину блока на мобильном
-    и 25% при размерах экрана ≥768px
-  {% endcomment %}
-  <aside class="col-12 col-md-3">
+  <h1 style="margin-top: 48px; margin-bottom: 30px">Вот что помогло в создании сайта</h1>
+
+  <aside class="col-12 col-md-3" style="background-color: #BF442A">
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">
+      <li class="list-group-item" style="background-color: #BF442A ; color: #E5E7E9 ; text-decoration: none">
         Python
       </li>
       <li class="list-group-item">
         Django
       </li>
+
+      <li class="list-group-item">
+        Git
+      </li>
+
+      <li class="list-group-item">
+        Flake8
+      </li>
+
+      <li class="list-group-item">
+        Slack
+      </li>
+
+      <li class="list-group-item">
+        Однокурсники
+      </li>
+
     </ul>
   </aside>
-  {% comment %}
-    Статья  
-    Займет всю ширину блока на мобильном
-    и 75% при размерах экрана ≥768px
-  {% endcomment %}
+ 
   <article class="col-12 col-md-9">
-    <p>Текст страницы "Технологии"</p>
+    <p>Было сложно и у меня почти не получилось, но спасибо моей кошке за поддержку</p>
   </article>
 </div>
 {% endblock %}

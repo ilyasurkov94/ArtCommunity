@@ -7,14 +7,18 @@
 {% endblock %}
 {% block content %}
 
-  {% include 'posts/includes/switcher.html' %} 
-  <h1> Записи мох авторов </h1>
+  <h1 style="margin-top: 48px; margin-bottom: 30px"> Записи мох авторов </h1>
+  {% include 'posts/includes/switcher.html' %}
+
   {% for post in page_obj %}
   <ul>
     <li>
-      Дата публикации: {{ post.pub_date|date:"d E Y" }}, автор <a href="{% url 'posts:profile' username=post.author.username %}">
-      {{ post.author.get_full_name }}
+      <a href="{% url 'posts:profile' username=post.author.username %}" style="color: #BF442A; text-decoration: none">
+        Автор: {{ post.author.get_full_name }}
       </a>  
+    </li>
+    <li style="color: #2ABFA2">
+       Дата публикации: {{ post.pub_date|date:"d E Y" }}
     </li>
   </ul>
   <p>{{ post.text }}</p>
@@ -22,7 +26,7 @@
     <img class="card-img my-2" src="{{ im.url }}">
     {% endthumbnail %}
   {% if post.group %}    
-    <a href="{% url 'posts:group_posts' slug=post.group.slug %}">Посмотреть записи группы</a>
+    <a href="{% url 'posts:group_posts' slug=post.group.slug %}" style="color:#2AA6BF; text-decoration: none">{{  post.group.title  }} *</a>
   {% endif %}
   {% if not forloop.last %}<hr>{% endif %}
     {% endfor %}
