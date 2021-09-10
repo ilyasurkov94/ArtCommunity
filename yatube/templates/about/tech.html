@@ -1,41 +1,82 @@
-<!-- templates/about/tech.html -->
 {% extends "base.html" %}
+{% load static %} 
+{% load thumbnail %}
 {% block title %}Технологии{% endblock %}
 {% block content %}
-{% comment %} Колонки с отступом сверху и снизу {% endcomment %}
+
 <div class="row">
+
   <h1 style="margin-top: 48px; margin-bottom: 30px">Вот что помогло в создании сайта</h1>
 
-  <aside class="col-12 col-md-3" style="background-color: #BF442A">
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item" style="background-color: #BF442A ; color: #E5E7E9 ; text-decoration: none">
-        Python
-      </li>
-      <li class="list-group-item" style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
-        Django
-      </li>
+    <aside class="col-12 col-md-3">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" style="background-color: #BF442A ; color: #E5E7E9 ; text-decoration: none">
+          
+        </li>
 
-      <li class="list-group-item" style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
-        Git
-      </li>
+        <li class="list-group-item" style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
+          Python
+        </li>
 
-      <li class="list-group-item" style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none"> 
-        Flake8
-      </li>
+        <li class="list-group-item" style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
+          Django
+        </li>
 
-      <li class="list-group-item"style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
-        Slack
-      </li>
+        <li class="list-group-item" style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
+          Git
+        </li>
 
-      <li class="list-group-item"style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
-        Однокурсники
-      </li>
+        <li class="list-group-item" style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none"> 
+          Flake8
+        </li>
 
-    </ul>
-  </aside>
+        <li class="list-group-item"style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
+          Slack
+        </li>
+
+        <li class="list-group-item"style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
+          Однокурсники
+       </li>
+       <br>
+       <br>
+
+        <li class="list-group-item" style="background-color: #2ABFA2 ; color: #E5E7E9 ; text-decoration: none">
+          
+        </li>
+
+        <li class="list-group-item" style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
+          В разработке :
+        </li>
+
+        <li class="list-group-item" style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
+          Система лайков
+        </li>
+
+        <li class="list-group-item" style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
+          Редактирование комментариев
+        </li>
+
+        <li class="list-group-item" style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
+          Удаление постов
+        </li>
+
+        <li class="list-group-item" style="background-color: #232323 ; color: #2AA6BF ; text-decoration: none">
+          Замена картинок в посте
+        </li>       
+
+
+
+      </ul>
+    </aside>
  
-  <article class="col-12 col-md-9">
-    <p>Было сложно и у меня почти не получилось, но спасибо моей кошке за поддержку</p>
-  </article>
+    <div class="col-12 col-md-9" style="background-color: #232323">   
+
+      <p style="color: #E5E7E9">Было сложно и у меня почти не получилось, но спасибо моей кошке за поддержку</p>
+        
+      <img class='card-img my-2' src="{% static 'img/Aria.png' %}" wigth=100% heigh=100% alt='mucup'>
+
+    </div>
+
+    
 </div>
 {% endblock %}
