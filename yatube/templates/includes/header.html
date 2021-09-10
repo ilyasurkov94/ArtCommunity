@@ -1,50 +1,52 @@
 {% load static %} 
   {% with request.resolver_match.view_name as view_name %}
-      <nav class="navbar navbar-light:" style="background-color: light">
-        <div class="container">
-          <a class="navbar-brand" href="{% url 'posts:index' %}">
-            <img src="{% static 'img/fox-logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-            <span style="color:#BF442A" >Art</span ><span style="color: #2ABFA2">Community</span>
-          </a>
-        <ul class="nav nav-pills">
-          <li class="nav-item"> 
-           <a class="nav-link" 
-              href="{% url 'about:author'  %}" {% if view_name  == 'about:author' %}style="color: #16A085; text-decoration: none"{% else %}style="color: #E5E7E9 ; text-decoration: none"{% endif %}>Об авторе</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" 
-              href="{% url 'about:tech' %}" {% if view_name  == 'about:tech' %}style="color: #16A085; text-decoration: none"{% else %}style="color: #E5E7E9 ; text-decoration: none"{% endif %}>Технологии</a>
-             </li>
-            {% if user.is_authenticated %}
-          <li class="nav-item"> 
-            <a class="nav-link" 
-              href="{% url 'posts:post_create' %}" {% if view_name  == 'posts:post_create' %}style="color: #16A085; text-decoration: none"{% else %}style="color: #E5E7E9 ; text-decoration: none"{% endif %}>Новая запись</a>
-          </li>
-          <li class="nav-item"> 
-            <a class="nav-link link-light"
-              href="{% url 'users:password_change' %}"  {% if view_name  == 'users:password_change' %}style="color: #16A085; text-decoration: none"{% else %}style="color: #E5E7E9 ; text-decoration: none"{% endif %}>Изменить пароль</a>
-          </li>
-          <li class="nav-item"> 
-            <a href="{% url 'users:logout' %}">
-              <button type="button" class="btn btn-warning">
-                  <li>Выйти</li>
-              </button>
+      <nav class="navbar navbar-light navbar-fixed-top" style="background-color: light">
+        <div class="p-2 mb-2 container fixed-top" style="background-color: #232323">
+            <a class="navbar-brand" href="{% url 'posts:index' %}">
+              <img src="{% static 'img/fox-logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+              <span style="color:#BF442A" >Art</span ><span style="color: #2ABFA2">Community</span>
             </a>
-          </li>
+          <ul class="nav nav-wrap">
+            <li class="nav-item"> 
+              <a class="nav-link" 
+                href="{% url 'about:author'  %}" {% if view_name  == 'about:author' %}style="color: #16A085; text-decoration: none"{% else %}style="color: #E5E7E9 ; text-decoration: none"{% endif %}>Об авторе</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" 
+                href="{% url 'about:tech' %}" {% if view_name  == 'about:tech' %}style="color: #16A085; text-decoration: none"{% else %}style="color: #E5E7E9 ; text-decoration: none"{% endif %}>Технологии</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item"> 
+              <a class="nav-link" 
+                href="{% url 'posts:post_create' %}" {% if view_name  == 'posts:post_create' %}style="color: #16A085; text-decoration: none"{% else %}style="color: #E5E7E9 ; text-decoration: none"{% endif %}>Новая запись</a>
+            </li>
+            <li class="nav-item"> 
+              <a class="nav-link link-light"
+                href="{% url 'users:password_change' %}"  {% if view_name  == 'users:password_change' %}style="color: #16A085; text-decoration: none"{% else %}style="color: #E5E7E9 ; text-decoration: none"{% endif %}>Изменить пароль</a>
+            </li>
+            <li class="nav-item"> 
+              <a href="{% url 'users:logout' %}">
+                <button type="button" class="btn btn-warning">
+                  Выйти
+                </button>
+              </a>
+            </li>
 
-          {% else %}
-          <li class="nav-item"> 
-            <a class="nav-link link-light {% if view_name  == 'users:login' %}active{% endif %}"
-              href="{% url 'users:login' %}">Войти</a>
-          </li>
-          <li class="nav-item"> 
-            <a class="nav-link link-light {% if view_name  == 'users:signup' %}active{% endif %}"
-              href="{% url 'users:signup' %}">Регистрация</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-    </nav>
+            {% else %}
+            <li class="nav-item"> 
+              <a class="nav-link link-light {% if view_name  == 'users:signup' %}active{% endif %}"
+                href="{% url 'users:signup' %}">Регистрация</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'users:login' %}">
+                <button type="button" class="btn btn-success">
+                  Войти
+                </button>
+              </a>       
+            </li>
+
+            {% endif %}
+          </ul>
         </div>
       </nav>
   {% endwith %} 

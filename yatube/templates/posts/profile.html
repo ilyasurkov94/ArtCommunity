@@ -6,7 +6,9 @@
     {% block content %}
       <div class="container py-5">    
         <div class="mb-5">    
-          <h1>Все посты пользователя {{ author.get_full_name }}</h1>
+          <h1 style="margin-top: 50px; margin-bottom: 30px">
+            Все посты пользователя {{ author.get_full_name }}
+          </h1>
           <h3>Всего постов: {{ posts_count }}</h3>
             {% if user.is_authenticated %}
               {% if following %}
@@ -36,26 +38,22 @@
         <article>
           {% for post in page_obj %}
           <ul>
-            <li>
+            <li style="color: #BF442A; text-decoration: none">
               Автор: {{ author.get_full_name }}
             </li>
-            <li>
+            <li style="color: #2ABFA2">
               Дата публикации: {{ post.pub_date|date:"d E Y" }} 
             </li>
           </ul>
           <p>
-            {{ post.text }}
+             <a href="{% url 'posts:post_detail' post_id=post.id %}" style="color: #E5E7E9; text-decoration: none">{{ post.text }}</a>
           </p>
           {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
           <img class="card-img my-2" src="{{ im.url }}">
           {% endthumbnail %}
-          <a href="{% url 'posts:post_detail' post_id=post.id %}">Подробная информация о посте</a>
         </article>
-        {% if post.group %}
-          <li>
-            Группа: {{ post.group }}
-          </li>          
-          <a href="{% url 'posts:group_posts' slug=post.group.slug %}">Все записи данной группы</a>  
+          {% if post.group %}
+          <a href="{% url 'posts:group_posts' slug=post.group.slug %}" style="color:#2AA6BF; text-decoration: none">{{  post.group.title  }} *</a>  
           {% endif %}      
         <hr>
         {% if not forloop.last %}

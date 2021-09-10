@@ -7,7 +7,7 @@
 {% cache 20 index_page %}
 {% block content %}
 
-  <h1 style="margin-top: 48px; margin-bottom: 30px">Последние обновления на сайте</h1>
+  <h1 style="margin-top: 100px; margin-bottom: 30px">Последние обновления на сайте</h1>
     {% include 'posts/includes/switcher.html' %}
 
   {% for post in page_obj %}
@@ -21,13 +21,15 @@
        Дата публикации: {{ post.pub_date|date:"d E Y" }}
     </li>
   </ul>
-  <p>{{ post.text }}</p>
+    <a href="{% url 'posts:post_detail' post_id=post.id %}" style="color: #E5E7E9; text-decoration: none">{{ post.text }}</a>
     {% thumbnail post.image "950x400" crop="center" upscale=True as im %}
-    <img class="card-img my-2" src="{{ im.url }}">
+      <img class="card-img my-2" src="{{ im.url }}">
     {% endthumbnail %}
-  {% if post.group %}    
-    <a href="{% url 'posts:group_posts' slug=post.group.slug %}" style="color:#2AA6BF; text-decoration: none">{{  post.group.title  }} *</a>
-  {% endif %}
+    {% if post.group %}
+      <p>    
+        <a href="{% url 'posts:group_posts' slug=post.group.slug %}" style="color:#2AA6BF; text-decoration: none">{{  post.group.title  }} *</a>
+      </p>
+    {% endif %}
   {% if not forloop.last %}<hr>{% endif %}
     {% endfor %}
   {% include 'posts/includes/paginator.html' %}
