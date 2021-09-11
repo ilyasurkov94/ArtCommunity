@@ -13,21 +13,21 @@
             {% if user.is_authenticated %}
               {% if following %}
                 <a
-                  class="btn btn-lg btn-light"
+                  class="btn btn-lg btn-warning"
                   href="{% url 'posts:profile_unfollow' author.username %}" role="button"
                 >
                   Отписаться
                 </a>
               {% else %}
                 <a
-                  class="btn btn-lg btn-primary"
+                  class="btn btn-lg btn-warning"
                   href="{% url 'posts:profile_follow' author.username %}" role="button"
                 >
                   Подписаться
                 </a>
              {% endif %}
             {% else %}
-                <p>
+                <p >
                   Авторизуйся, чтобы подписаться
                 </p>
             {% endif %}
@@ -48,7 +48,7 @@
           <p>
              <a href="{% url 'posts:post_detail' post_id=post.id %}" style="color: #E5E7E9; text-decoration: none">{{ post.text }}</a>
           </p>
-          {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+          {% thumbnail post.image "950x400" crop="center" upscale=True as im %}
           <img class="card-img my-2" src="{{ im.url }}">
           {% endthumbnail %}
         </article>

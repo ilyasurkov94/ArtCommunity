@@ -64,11 +64,16 @@ def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     author_posts_count = post.author.posts.all().count()
     comments = post.comments.all()
+    if post.author != request.user:
+        if_author = False
+    else:
+        if_author = True
     form = CommentForm(request.POST or None)
     context = {
         'post': post,
         'author_posts_count': author_posts_count,
         'comments': comments,
+        'if_author': if_author,
         'form': form,
     }
     return render(request, 'posts/post_detail.html', context)
@@ -98,7 +103,8 @@ def post_edit(request, post_id):
         form = PostForm(instance=post)
         return render(request, 'posts/create_post.html',
                       {'form': form, 'post_id': post_id, 'is_edit': True})
-    form = PostForm(request.POST or None, instance=post)
+    form = PostForm(request.POST or None,
+                    files=request.FILES or None, instance=post)
     if form.is_valid():
         post = form.save(commit=False)
         post.author = request.user
@@ -150,3 +156,10 @@ def profile_unfollow(request, username):
     if follow_object.exists():
         follow_object.delete()
     return redirect('posts:profile', username=username)
+
+
+def post_delete(request, post_id):
+    post_to_delete = Post.objects.filter(id=post_id)
+    if post_to_delete.exists():
+        post_to_delete.delete()
+    return redirect('posts:index')

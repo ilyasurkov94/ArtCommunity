@@ -12,7 +12,7 @@ class PostAdmin(admin.ModelAdmin):
 
 class GroupAdmin(admin.ModelAdmin):
     list_display = ('pk', 'title', 'description',)
-    list_editable = ('title',)
+    list_editable = ('title', 'description',)
     search_fields = ('description',)
 
 

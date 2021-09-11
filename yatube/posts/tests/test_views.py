@@ -274,6 +274,7 @@ class PaginatorViewsTest(TestCase):
         self.assertEqual(len(response.context['page_obj']), 3)
 
 
+@override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class Post_adds_correct(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -298,6 +299,11 @@ class Post_adds_correct(TestCase):
             author=cls.user,
             group=cls.group
         )
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+        shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
 
     def setUp(self):
         self.authorized_client = Client()

@@ -25,13 +25,23 @@
               <li class="list-group-item" style="background-color: #232323; color: #2ABFA2">
                 Опубликовано: {{ post.pub_date|date:"d E Y" }}
               </li>
-              
+
+              {% if if_author %}           
+
               <li class="list-group-item" style="background-color: #232323">
                 <button type='submit' class="btn btn-warning">
                   <a href="{% url 'posts:post_edit' post_id=post.id %}" style="color: #232323; text-decoration: none">Редактировать</a>
                 </button>
               </li>
 
+              <li class="list-group-item" style="background-color: #232323">
+                <button type='submit' class="btn btn-warning">
+                  <a href="{% url 'posts:post_delete' post_id=post.id %}" style="color: #232323; text-decoration: none">Удалить</a>
+                </button>
+              </li>
+
+              {% endif %}
+                
           </ul>
           </aside>
         <article class="col-12 col-md-9">
@@ -46,10 +56,10 @@
 
           {% for comment in comments %}
             <div class="media mb-4">
-              <div class="media-body">
+              <div class="media-body" >
                 <h5 class="mt-0">
-                  <a href="{% url 'posts:profile' comment.author.username %}">
-                    {{ comment.author.username }}
+                  <a href="{% url 'posts:profile' comment.author.username %}" style="color: #E5E7E9; text-decoration: none">
+                    <span style="color: #BF442A">{{ comment.author.username }}</span> - <span style="color: #2ABFA2"> {{ comment.created|date:"H:i d/n/Y e" }}</span>
                   </a>
                 </h5>
                   <p>
@@ -60,9 +70,9 @@
          {% endfor %} 
 
           {% if user.is_authenticated %}
-            <div class="card my-4" style="background-color: #BF442A">
+            <div class="card my-4 col-6 col-md-12" style="background-color: #BF442A">
               <h5 class="card-header">Добавить комментарий:</h5>
-                <div class="card-body" >
+                <div class="card-body col-6 col-md-12" >
                   <form method="post" action="{% url 'posts:add_comment' post.id %}" >
                   {% csrf_token %}      
                     <div class="form-group mb-2" >
